@@ -31,7 +31,7 @@ public class Login extends javax.swing.JFrame {
         txtUsername = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        loginBTN = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -41,10 +41,10 @@ public class Login extends javax.swing.JFrame {
 
         jLabel3.setText("Password");
 
-        jButton1.setText("Login");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        loginBTN.setText("Login");
+        loginBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                loginBTNActionPerformed(evt);
             }
         });
 
@@ -68,7 +68,7 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(txtPassword)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(152, 152, 152)
-                        .addComponent(jButton1)))
+                        .addComponent(loginBTN)))
                 .addContainerGap(68, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -85,28 +85,36 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(40, 40, 40)
-                .addComponent(jButton1)
+                .addComponent(loginBTN)
                 .addContainerGap(114, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      
+    private void loginBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBTNActionPerformed
+
         String user = txtUsername.getText();
         String pass = new String(txtPassword.getPassword());
 
+        if (user.trim().isEmpty() || pass.trim().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Please enter both a username and a password.",
+                    "Validation Error",
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         sunrisedentalclinic.dao.StaffDAO dao = new sunrisedentalclinic.dao.StaffDAO();
 
         if (dao.authenticateStaff(user, pass)) {
             javax.swing.JOptionPane.showMessageDialog(this, "Login Successful!");
         } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "Invalid Username or Password.");
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Invalid Username or Password.",
+                    "Login Failed",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
         }
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_loginBTNActionPerformed
 
     /**
      * @param args the command line arguments
@@ -144,10 +152,10 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton loginBTN;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
