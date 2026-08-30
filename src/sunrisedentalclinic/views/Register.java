@@ -33,6 +33,7 @@ public class Register extends javax.swing.JFrame {
         regUsername = new javax.swing.JTextField();
         regPassword = new javax.swing.JPasswordField();
         regConfirmPassword = new javax.swing.JPasswordField();
+        registerBTN = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,14 +51,17 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
+        registerBTN.setText("Register");
+        registerBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerBTNActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(173, 173, 173))
             .addGroup(layout.createSequentialGroup()
                 .addGap(101, 101, 101)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -74,6 +78,15 @@ public class Register extends javax.swing.JFrame {
                             .addComponent(regPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                             .addComponent(regUsername))))
                 .addContainerGap(92, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(173, 173, 173))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(registerBTN)
+                        .addGap(156, 156, 156))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -92,7 +105,9 @@ public class Register extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(regConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(registerBTN)
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         pack();
@@ -101,6 +116,44 @@ public class Register extends javax.swing.JFrame {
     private void regUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regUsernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_regUsernameActionPerformed
+
+    private void registerBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBTNActionPerformed
+
+        String username = regUsername.getText().trim();
+        String password = new String(regPassword.getPassword());
+        String confirmPassword = new String(regConfirmPassword.getPassword());
+
+        if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Please fill in all fields.",
+                    "Validation Error",
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return; 
+        }
+
+        if (!password.equals(confirmPassword)) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Passwords do not match. Please try again.",
+                    "Validation Error",
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return; 
+        }
+
+        sunrisedentalclinic.dao.StaffDAO dao = new sunrisedentalclinic.dao.StaffDAO();
+
+        if (dao.registerStaff(username, password, "Staff")) {
+            javax.swing.JOptionPane.showMessageDialog(this, "New staff account created successfully!");
+
+            regUsername.setText("");
+            regPassword.setText("");
+            regConfirmPassword.setText("");
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Registration failed. That username might already be taken.",
+                    "Database Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_registerBTNActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,5 +198,6 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JPasswordField regConfirmPassword;
     private javax.swing.JPasswordField regPassword;
     private javax.swing.JTextField regUsername;
+    private javax.swing.JButton registerBTN;
     // End of variables declaration//GEN-END:variables
 }
