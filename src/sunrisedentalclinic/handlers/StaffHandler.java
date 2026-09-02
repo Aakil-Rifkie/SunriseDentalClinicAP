@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import sunrisedentalclinic.dao.StaffDAO;
+
 /**
  *
  * @author user
@@ -23,19 +24,31 @@ public class StaffHandler implements HttpHandler {
 
         if ("POST".equals(exchange.getRequestMethod())) {
 
+            String path = exchange.getRequestURI().getPath();
             InputStream is = exchange.getRequestBody();
             String requestBody = new String(is.readAllBytes());
-            String[] credentials = requestBody.split(",");
-            String response = "false"; 
-            if (credentials.length == 2) {
-                String username = credentials[0];
-                String password = credentials[1];
+            String[] data = requestBody.split(",");
 
-                boolean isValid = staffDAO.authenticateStaff(username, password);
-                
-                response = String.valueOf(isValid);
+            String response = "false";
+
+            if (path.equals("/login")) {
+                if (data.length == 2) {
+                    String username = data[0];
+                    String password = data[1];
+
+                    boolean isValid = staffDAO.authenticateStaff(username, password);
+                    response = String.valueOf(isValid);
+                }
             }
-
+            else if(path.equals("/register")) {
+                if (data.length == 3){
+                    String username = data[0];
+                    String password = data[1];
+                    String role = data[2];
+                    boolean isRegistered = staffDAO.registerStaff(username, password, role);
+                    response = String.valueOf(isRegistered);
+                }
+            }
             exchange.sendResponseHeaders(200, response.getBytes().length);
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
