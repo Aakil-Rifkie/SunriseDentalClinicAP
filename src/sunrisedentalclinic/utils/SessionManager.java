@@ -14,7 +14,7 @@ public class SessionManager {
     private String username;
     private String role;
 
-    private static SessionManager getInstance() {
+    public static SessionManager getInstance() {
         if (instance == null) {
             instance = new SessionManager();
         }

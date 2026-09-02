@@ -8,7 +8,7 @@ import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import sunrisedentalclinic.handlers.StaffHandler;
-
+import sunrisedentalclinic.handlers.AppointmentHandler;
 /**
  *
  * @author user
@@ -21,7 +21,10 @@ public class SunriseDentalClinic {
            
            StaffHandler staffHandler = new StaffHandler();
            server.createContext("/login", staffHandler);
-           server.createContext("/register", staffHandler);
+           server.createContext("/register", staffHandler); 
+           
+           AppointmentHandler apptHandler = new AppointmentHandler();
+           server.createContext("/dentists", apptHandler);
            
            server.setExecutor(null);
            server.start();
