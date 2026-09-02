@@ -104,13 +104,13 @@ public class Login extends javax.swing.JFrame {
                     javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
-        sunrisedentalclinic.dao.StaffDAO dao = new sunrisedentalclinic.dao.StaffDAO();
+        sunrisedentalclinic.controllers.StaffController controller = new sunrisedentalclinic.controllers.StaffController();
 
-        if (dao.authenticateStaff(user, pass)) {
+        if (controller.handleLogin(user, pass)) {
             javax.swing.JOptionPane.showMessageDialog(this, "Login Successful!");
         } else {
             javax.swing.JOptionPane.showMessageDialog(this,
-                    "Invalid Username or Password.",
+                    "Invalid Username or Password, or Server Offline.",
                     "Login Failed",
                     javax.swing.JOptionPane.ERROR_MESSAGE);
         }

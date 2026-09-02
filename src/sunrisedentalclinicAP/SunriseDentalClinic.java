@@ -21,7 +21,7 @@ public class SunriseDentalClinic {
            
            StaffHandler staffHandler = new StaffHandler();
            server.createContext("/login", staffHandler);
-           server.createContext("register", staffHandler);
+           server.createContext("/register", staffHandler);
            
            server.setExecutor(null);
            server.start();

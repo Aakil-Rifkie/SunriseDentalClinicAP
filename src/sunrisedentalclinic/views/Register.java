@@ -139,9 +139,9 @@ public class Register extends javax.swing.JFrame {
             return; 
         }
 
-        sunrisedentalclinic.dao.StaffDAO dao = new sunrisedentalclinic.dao.StaffDAO();
+        sunrisedentalclinic.controllers.StaffController controller = new sunrisedentalclinic.controllers.StaffController();
 
-        if (dao.registerStaff(username, password, "Staff")) {
+        if (controller.handleRegistration(username, password, "Staff")) {
             javax.swing.JOptionPane.showMessageDialog(this, "New staff account created successfully!");
 
             regUsername.setText("");
