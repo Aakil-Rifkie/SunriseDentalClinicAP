@@ -42,6 +42,17 @@ public class AppointmentController {
         return new ArrayList<>();
     }
     
+    public boolean isSlotAvailable(String dentist, String date, String time){
+        String payload = String.join("###", dentist, date, time);
+        
+        try{
+            String response = apiClient.post("/checkAvailability", payload);
+            return Boolean.parseBoolean(response.trim());
+        } catch (Exception e){
+            return false;
+        }
+    }
+    
     public boolean processRegistration(Patient patient, Appointment appt){
         String payload = String.join("###", 
                 patient.getName(),

@@ -75,42 +75,56 @@ public class AppointmentDAO {
             System.out.println("Double booking prevented! This time slot is already taken");
             return false;
         }
-
+        
+        String checkPatient = "SELECT patient_id FROM patients WHERE contact = ?";
         String insertPatient = "INSERT INTO patients (name, address, contact) VALUES (?, ?, ?)";
         String insertAppt = "INSERT INTO appointments (patient_id, dentist_name, treatment_type, appt_date, appt_time) VALUES (?, ?, ?, ?, ?)";
         
         try (Connection con = DBConnection.getConnection()){
            con.setAutoCommit(false);
+           int patientId = -1;
            
-           try (PreparedStatement pstPatient = con.prepareStatement(insertPatient, Statement.RETURN_GENERATED_KEYS)){
+           try (PreparedStatement pstCheck = con.prepareStatement(checkPatient)){
+               pstCheck.setString(1, patient.getContact());
+               try(ResultSet rsCheck = pstCheck.executeQuery()){
+                   if (rsCheck.next()){
+                       patientId = rsCheck.getInt("patient_id");
+                   }
+               }
+           }
+                   
+           if (patientId == -1){
+               try (PreparedStatement pstPatient = con.prepareStatement(insertPatient, Statement.RETURN_GENERATED_KEYS)){
                 pstPatient.setString(1, patient.getName());
                 pstPatient.setString(2, patient.getAddress());
                 pstPatient.setString(3, patient.getContact());
                 pstPatient.executeUpdate();
                 
-                try(ResultSet rs = pstPatient.getGeneratedKeys()){
-                    if(rs.next()){
-                        int patientId = rs.getInt(1);
-                        
-                        try (PreparedStatement pstAppt = con.prepareStatement(insertAppt)){
-                            pstAppt.setInt(1, patientId);
-                            pstAppt.setString(2, appt.getDentistName());
-                            pstAppt.setString(3, appt.getTreatmentType());
-                            pstAppt.setString(4, appt.getAppointmentDate());
-                            pstAppt.setString(5, appt.getAppointmentTime());
-                            pstAppt.executeUpdate();
+                    try(ResultSet rsKeys = pstPatient.getGeneratedKeys()){
+                        if (rsKeys.next()){
+                            patientId = rsKeys.getInt(1);
                         }
                     }
-                }  
-                con.commit();
-                return true;
-           } catch (Exception ex){
-               con.rollback();
-               System.out.println("Transaction failed, rolled back: " + ex.getMessage());
-               return false;
+               }
            }
+           
+           if (patientId != -1){
+               try(PreparedStatement pstAppt = con.prepareStatement(insertAppt)){
+                   pstAppt.setInt(1, patientId);
+                   pstAppt.setString(2, appt.getDentistName());
+                   pstAppt.setString(3, appt.getTreatmentType());
+                   pstAppt.setString(4, appt.getAppointmentDate());
+                   pstAppt.setString(5, appt.getAppointmentTime());
+                   pstAppt.executeUpdate();
+               }
+               con.commit();
+               return true;
+           } else {
+               con.rollback();
+               return false;
+           }  
         } catch (Exception e){
-            System.out.println("Database error: " + e.getMessage());
+            System.out.println("Database Error: " + e.getMessage());
             return false;
         }
     }

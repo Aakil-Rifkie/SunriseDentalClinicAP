@@ -26,6 +26,7 @@ public class SunriseDentalClinic {
            AppointmentHandler apptHandler = new AppointmentHandler();
            server.createContext("/dentist", apptHandler);
            server.createContext("/treatment", apptHandler);
+           server.createContext("/checkAvailability", apptHandler);
            server.createContext("/registerAppointment", apptHandler);    
            
            server.setExecutor(null);

@@ -37,28 +37,40 @@ public class AppointmentHandler implements HttpHandler {
                 } else if (path.equals("/treatment")) {
                     List<String> treatments = apptDAO.getAvailableTreatment();
                     response = String.join("###", treatments);
+                } else {
+                    statusCode = 404;
                 }
-            } else if ("POST".equals(method) && path.equals("/registerAppointment")) {
+            } else if ("POST".equals(method)) {
                 InputStream is = exchange.getRequestBody();
                 String requestBody = new String(is.readAllBytes());
-
                 String[] data = requestBody.split("###");
 
-                if (data.length == 7) {
-                    Patient newPatient = new Patient(data[0], data[1], data[2]);
-                    Appointment newAppt = new Appointment(data[3], data[4], data[5], data[6]);
-                    
-                    boolean isRegistered = apptDAO.registerPatientAndAppointment(newPatient, newAppt);
-                    response = String.valueOf(isRegistered);
+                if (path.equals("/registerAppointment")) {
+                    if (data.length == 7) {
+                        Patient newPatient = new Patient(data[0], data[1], data[2]);
+                        Appointment newAppt = new Appointment(data[3], data[4], data[5], data[6]);
+
+                        boolean isRegistered = apptDAO.registerPatientAndAppointment(newPatient, newAppt);
+                        response = String.valueOf(isRegistered);
+                    } else {
+                        response = "false";
+                        statusCode = 400;
+                    }
+                } else if (path.equals("/checkAvailability")) {
+                    if (data.length == 3) {
+                        boolean isAvailable = apptDAO.checkAvailability(data[0], data[1], data[2]);
+                        response = String.valueOf(isAvailable);
+                    } else {
+                        response = "false";
+                        statusCode = 400;
+                    }
                 } else {
-                    response = "false";
-                    statusCode = 400;
+                    statusCode = 404;
                 }
             } else {
-                statusCode = 404;
+                statusCode = 405;
             }
-
-        } catch (Exception e) {
+        } catch (Exception e) { 
             statusCode = 500;
             response = "Error processing request";
         }
