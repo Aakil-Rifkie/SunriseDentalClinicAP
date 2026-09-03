@@ -17,6 +17,22 @@ public class BillingView extends javax.swing.JFrame {
      */
     public BillingView() {
         initComponents();
+  
+    }
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b && !sunrisedentalclinic.utils.SessionManager.getInstance().isLoggedin()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Unauthorized access! Please log in first.", 
+                "Security Alert", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+            
+            new Login().setVisible(true);
+            this.dispose();
+            return; 
+        }
+        super.setVisible(b);
     }
 
     /**
@@ -35,6 +51,7 @@ public class BillingView extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtReceiptArea = new javax.swing.JTextArea();
         btnPrintReceipt = new javax.swing.JButton();
+        backBTN = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,25 +84,41 @@ public class BillingView extends javax.swing.JFrame {
             }
         });
 
+        backBTN.setText("Close");
+        backBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBTNActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(213, 213, 213))
             .addGroup(layout.createSequentialGroup()
                 .addGap(63, 63, 63)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnCalculate)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnPrintReceipt))
-                    .addComponent(jLabel2)
-                    .addComponent(txtApptId, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(63, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnCalculate)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnPrintReceipt))
+                            .addComponent(jLabel2))
+                        .addContainerGap(63, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtApptId, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(213, 213, 213))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(backBTN)
+                        .addGap(28, 28, 28))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,15 +127,17 @@ public class BillingView extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(44, 44, 44)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtApptId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCalculate)
                     .addComponent(btnPrintReceipt))
                 .addGap(36, 36, 36)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(backBTN)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -173,6 +208,10 @@ public class BillingView extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_btnPrintReceiptActionPerformed
 
+    private void backBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBTNActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_backBTNActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -209,6 +248,7 @@ public class BillingView extends javax.swing.JFrame {
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backBTN;
     private javax.swing.JButton btnCalculate;
     private javax.swing.JButton btnPrintReceipt;
     private javax.swing.JLabel jLabel1;

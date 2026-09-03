@@ -104,10 +104,21 @@ public class Login extends javax.swing.JFrame {
                     javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
+        
         sunrisedentalclinic.controllers.StaffController controller = new sunrisedentalclinic.controllers.StaffController();
 
         if (controller.handleLogin(user, pass)) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Login Successful!");
+            String role = sunrisedentalclinic.utils.SessionManager.getInstance().getCurrentRole();
+            if ("Dentist".equalsIgnoreCase(role)){
+                javax.swing.JOptionPane.showMessageDialog(this, "Access Denied! Dentists do not have system access", "Unauthorized Role", javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            
+            javax.swing.JOptionPane.showMessageDialog(this, "Login Successful! Welcome, " + user);
+            new Dashboard().setVisible(true);
+            this.dispose();
+            
         } else {
             javax.swing.JOptionPane.showMessageDialog(this,
                     "Invalid Username or Password, or Server Offline.",

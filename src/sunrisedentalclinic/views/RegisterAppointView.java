@@ -17,7 +17,22 @@ public class RegisterAppointView extends javax.swing.JFrame {
         initComponents();
         populateComboBoxes();
     }
-
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b && !sunrisedentalclinic.utils.SessionManager.getInstance().isLoggedin()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Unauthorized access! Please log in first.", 
+                "Security Alert", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+            
+            new Login().setVisible(true);
+            this.dispose();
+            return; 
+        }
+        super.setVisible(b);
+    }
+    
     private void populateComboBoxes() {
         sunrisedentalclinic.controllers.AppointmentController controller = new sunrisedentalclinic.controllers.AppointmentController();
 
@@ -56,6 +71,7 @@ public class RegisterAppointView extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         dateandtimeTxt = new javax.swing.JTextField();
         registerApptBTN = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,6 +97,13 @@ public class RegisterAppointView extends javax.swing.JFrame {
         registerApptBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 registerApptBTNActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Close");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -122,6 +145,10 @@ public class RegisterAppointView extends javax.swing.JFrame {
                         .addGap(127, 127, 127)
                         .addComponent(registerApptBTN)))
                 .addContainerGap(115, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(38, 38, 38))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,7 +181,9 @@ public class RegisterAppointView extends javax.swing.JFrame {
                     .addComponent(dateandtimeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(registerApptBTN)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -183,6 +212,7 @@ public class RegisterAppointView extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this,
                     "Please enter a valid 10 digit contact number (eg: 0771234567",
                     "Validation Error", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
         java.time.LocalDateTime appointmentDateTime;
@@ -229,6 +259,10 @@ public class RegisterAppointView extends javax.swing.JFrame {
 
     }//GEN-LAST:event_registerApptBTNActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -269,6 +303,7 @@ public class RegisterAppointView extends javax.swing.JFrame {
     private javax.swing.JTextField contactTxt;
     private javax.swing.JTextField dateandtimeTxt;
     private javax.swing.JComboBox<String> dentistBox;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

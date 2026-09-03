@@ -22,6 +22,21 @@ public class HelpView extends javax.swing.JFrame {
         txtHelpArea.setCaretPosition(0);
     }
     
+    @Override
+    public void setVisible(boolean b) {
+        if (b && !sunrisedentalclinic.utils.SessionManager.getInstance().isLoggedin()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Unauthorized access! Please log in first.", 
+                "Security Alert", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+            
+            new Login().setVisible(true);
+            this.dispose();
+            return; 
+        }
+        
+        super.setVisible(b);
+    }
 
 
 

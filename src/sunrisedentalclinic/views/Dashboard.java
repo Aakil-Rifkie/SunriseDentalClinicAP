@@ -15,8 +15,32 @@ public class Dashboard extends javax.swing.JFrame {
      */
     public Dashboard() {
         initComponents();
+        
+        String user = sunrisedentalclinic.utils.SessionManager.getInstance().getCurrentUser();
+        String role = sunrisedentalclinic.utils.SessionManager.getInstance().getCurrentRole();
+        lblWelcome.setText("Logged in as: " + user + " | Role: " + role);
+        
+        if (!"Admin".equalsIgnoreCase(role)) {
+        btnRegisterStaff.setVisible(false); 
     }
-
+    }
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b && !sunrisedentalclinic.utils.SessionManager.getInstance().isLoggedin()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Unauthorized access! Please log in first.", 
+                "Security Alert", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+            
+            new Login().setVisible(true);
+            this.dispose();
+            return; 
+        }
+    
+        super.setVisible(b);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,21 +50,142 @@ public class Dashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        lblWelcome = new javax.swing.JLabel();
+        btnRegisterAppt = new javax.swing.JButton();
+        btnViewAppt = new javax.swing.JButton();
+        btnBilling = new javax.swing.JButton();
+        btnHelp = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
+        btnRegisterStaff = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setText("Sunrise Dental Clinic - Main Menu");
+
+        lblWelcome.setText("Logged in as: ");
+
+        btnRegisterAppt.setText("Register Appointment");
+        btnRegisterAppt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegisterApptActionPerformed(evt);
+            }
+        });
+
+        btnViewAppt.setText("View Appointments");
+        btnViewAppt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewApptActionPerformed(evt);
+            }
+        });
+
+        btnBilling.setText("Billing");
+        btnBilling.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBillingActionPerformed(evt);
+            }
+        });
+
+        btnHelp.setText("Help Section");
+        btnHelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHelpActionPerformed(evt);
+            }
+        });
+
+        btnLogout.setText("Log out");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
+
+        btnRegisterStaff.setText("Admin: Register new Staff");
+        btnRegisterStaff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegisterStaffActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnLogout)
+                .addGap(28, 28, 28))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(104, 104, 104)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnRegisterAppt)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnViewAppt)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnBilling)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnHelp))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(216, 216, 216)
+                        .addComponent(btnRegisterStaff)))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(lblWelcome)
+                .addGap(112, 112, 112)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRegisterAppt)
+                    .addComponent(btnViewAppt)
+                    .addComponent(btnBilling)
+                    .addComponent(btnHelp))
+                .addGap(33, 33, 33)
+                .addComponent(btnRegisterStaff)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
+                .addComponent(btnLogout)
+                .addGap(27, 27, 27))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        sunrisedentalclinic.utils.SessionManager.getInstance().clearSession();
+        new Login().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnRegisterApptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterApptActionPerformed
+        new RegisterAppointView().setVisible(true);
+    }//GEN-LAST:event_btnRegisterApptActionPerformed
+
+    private void btnViewApptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewApptActionPerformed
+        new ViewAppointment().setVisible(true);
+    }//GEN-LAST:event_btnViewApptActionPerformed
+
+    private void btnBillingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBillingActionPerformed
+        new BillingView().setVisible(true);
+    }//GEN-LAST:event_btnBillingActionPerformed
+
+    private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
+        new HelpView().setVisible(true);
+    }//GEN-LAST:event_btnHelpActionPerformed
+
+    private void btnRegisterStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterStaffActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRegisterStaffActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +223,13 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBilling;
+    private javax.swing.JButton btnHelp;
+    private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnRegisterAppt;
+    private javax.swing.JButton btnRegisterStaff;
+    private javax.swing.JButton btnViewAppt;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblWelcome;
     // End of variables declaration//GEN-END:variables
 }

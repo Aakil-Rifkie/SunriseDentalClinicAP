@@ -16,7 +16,23 @@ public class Register extends javax.swing.JFrame {
     public Register() {
         initComponents();
     }
-
+    
+    @Override
+    public void setVisible(boolean b) {
+        if (b && !sunrisedentalclinic.utils.SessionManager.getInstance().isLoggedin()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Unauthorized access! Please log in first.", 
+                "Security Alert", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+            
+            new Login().setVisible(true);
+            this.dispose();
+            return; 
+        }
+       
+        super.setVisible(b);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,6 +50,7 @@ public class Register extends javax.swing.JFrame {
         regPassword = new javax.swing.JPasswordField();
         regConfirmPassword = new javax.swing.JPasswordField();
         registerBTN = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,6 +72,13 @@ public class Register extends javax.swing.JFrame {
         registerBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 registerBTNActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Close");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -86,7 +110,10 @@ public class Register extends javax.swing.JFrame {
                         .addGap(173, 173, 173))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(registerBTN)
-                        .addGap(156, 156, 156))))
+                        .addGap(156, 156, 156))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(28, 28, 28))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,7 +134,9 @@ public class Register extends javax.swing.JFrame {
                     .addComponent(regConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(registerBTN)
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(32, 32, 32))
         );
 
         pack();
@@ -155,6 +184,10 @@ public class Register extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_registerBTNActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -191,6 +224,7 @@ public class Register extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
