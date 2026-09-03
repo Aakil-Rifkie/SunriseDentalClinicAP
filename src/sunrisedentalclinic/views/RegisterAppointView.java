@@ -15,6 +15,22 @@ public class RegisterAppointView extends javax.swing.JFrame {
      */
     public RegisterAppointView() {
         initComponents();
+        populateComboBoxes();
+    }
+
+    private void populateComboBoxes() {
+        sunrisedentalclinic.controllers.AppointmentController controller = new sunrisedentalclinic.controllers.AppointmentController();
+
+        dentistBox.removeAllItems();
+        treatmentBox.removeAllItems();
+
+        for (String dentist : controller.loadAvailableDentists()) {
+            dentistBox.addItem(dentist);
+        }
+
+        for (String treatment : controller.loadAvailableTreatments()) {
+            treatmentBox.addItem(treatment);
+        }
     }
 
     /**
@@ -30,7 +46,7 @@ public class RegisterAppointView extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        patientnameTxt = new javax.swing.JTextField();
         addressTxt = new javax.swing.JTextField();
         contactTxt = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -38,7 +54,7 @@ public class RegisterAppointView extends javax.swing.JFrame {
         dentistBox = new javax.swing.JComboBox<>();
         treatmentBox = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        dateTxt = new javax.swing.JTextField();
+        dateandtimeTxt = new javax.swing.JTextField();
         registerApptBTN = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -85,30 +101,27 @@ public class RegisterAppointView extends javax.swing.JFrame {
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel3))
                                 .addGap(29, 29, 29)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(patientnameTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                                    .addComponent(addressTxt)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(contactTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel5)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(dentistBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(contactTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel6)
-                                        .addComponent(jLabel7))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(treatmentBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(dateTxt))))))
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel5))
+                                .addGap(23, 23, 23)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(dentistBox, 0, 121, Short.MAX_VALUE)
+                                    .addComponent(treatmentBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(dateandtimeTxt)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(127, 127, 127)
                         .addComponent(registerApptBTN)))
-                .addContainerGap(163, Short.MAX_VALUE))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,7 +131,7 @@ public class RegisterAppointView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(patientnameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -138,7 +151,7 @@ public class RegisterAppointView extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(dateTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateandtimeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(registerApptBTN)
                 .addContainerGap(26, Short.MAX_VALUE))
@@ -148,7 +161,66 @@ public class RegisterAppointView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void registerApptBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerApptBTNActionPerformed
-        // TODO add your handling code here:
+        String pName = patientnameTxt.getText().trim();
+        String address = addressTxt.getText().trim();
+        String contact = contactTxt.getText().trim();
+        
+        if (dentistBox.getSelectedItem() == null || treatmentBox.getSelectedItem() == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please wait for the dentists and treatment to load");
+            return;
+        }
+        
+        String dentist = dentistBox.getSelectedItem().toString();
+        String treatment = treatmentBox.getSelectedItem().toString();
+        String dateTimeInput = dateandtimeTxt.getText().trim();
+
+        if (pName.isEmpty() || address.isEmpty() || contact.isEmpty() || dateTimeInput.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please fill all the fields");
+            return;
+        }
+
+        java.time.LocalDateTime appointmentDateTime;
+        try {
+            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            appointmentDateTime = java.time.LocalDateTime.parse(dateTimeInput, formatter);
+            
+            if (appointmentDateTime.isBefore(java.time.LocalDateTime.now())) {
+                javax.swing.JOptionPane.showMessageDialog(this, "You cannot book an appointment in the past!", "Timeline Error", javax.swing.JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+        } catch (java.time.format.DateTimeParseException e){
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Invalid Date/Time format or invalid time (like 25:00).\n" +
+                            "Please use YYYY-MM-DD HH:MM (24-hour format).\n" +
+                            "Example: 2026-09-05 14:00",
+                    "Format Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        String date = appointmentDateTime.toLocalDate().toString();
+        String time = appointmentDateTime.toLocalTime().toString(); 
+        
+        sunrisedentalclinic.controllers.AppointmentController controller = new sunrisedentalclinic.controllers.AppointmentController();
+        
+        if (!controller.isSlotAvailable(dentist, date, time)) {
+            javax.swing.JOptionPane.showMessageDialog(this, "This time slot is already booked for " + javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        sunrisedentalclinic.models.Patient patient = new sunrisedentalclinic.models.Patient(pName, address, contact);
+        sunrisedentalclinic.models.Appointment appt = new sunrisedentalclinic.models.Appointment(dentist, treatment, date, time);
+        
+         if (controller.processRegistration(patient, appt)) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Appointment Registered Succesfully");
+            
+            patientnameTxt.setText("");
+            addressTxt.setText("");
+            contactTxt.setText("");
+            dateandtimeTxt.setText("");
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Registration failed, check the server connection", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_registerApptBTNActionPerformed
 
     /**
@@ -189,7 +261,7 @@ public class RegisterAppointView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField addressTxt;
     private javax.swing.JTextField contactTxt;
-    private javax.swing.JTextField dateTxt;
+    private javax.swing.JTextField dateandtimeTxt;
     private javax.swing.JComboBox<String> dentistBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -198,7 +270,7 @@ public class RegisterAppointView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField patientnameTxt;
     private javax.swing.JButton registerApptBTN;
     private javax.swing.JComboBox<String> treatmentBox;
     // End of variables declaration//GEN-END:variables
