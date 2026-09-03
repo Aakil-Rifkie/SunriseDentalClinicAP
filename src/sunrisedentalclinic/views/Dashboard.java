@@ -184,7 +184,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHelpActionPerformed
 
     private void btnRegisterStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterStaffActionPerformed
-        // TODO add your handling code here:
+        new Register().setVisible(true);
     }//GEN-LAST:event_btnRegisterStaffActionPerformed
 
     /**

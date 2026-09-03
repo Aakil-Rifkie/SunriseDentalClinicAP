@@ -36,8 +36,12 @@ public class StaffHandler implements HttpHandler {
                     String username = data[0];
                     String password = data[1];
 
-                    boolean isValid = staffDAO.authenticateStaff(username, password);
-                    response = String.valueOf(isValid);
+                    String role = staffDAO.authenticateStaff(username, password);
+                    if (role != null){
+                        response = role;
+                    } else {
+                        response = "false";
+                    }
                 }
             }
             else if(path.equals("/register")) {

@@ -18,12 +18,11 @@ public class StaffController {
         
         try {
             String response = apiClient.post("/login", payload);
-            boolean isSuccess = Boolean.parseBoolean(response.trim());
-            
-            if (isSuccess){
-                SessionManager.getInstance().createSession(username, "Staff");
+            if (!response.trim().equals("false") && !response.trim().isEmpty()){
+                SessionManager.getInstance().createSession(username, response.trim());
+                return true;
             }
-            return isSuccess;
+           return false;
         }
         catch(Exception e){
             System.out.println("Network or Login Error: " + e.getMessage());

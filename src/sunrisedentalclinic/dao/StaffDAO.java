@@ -7,9 +7,9 @@ import java.sql.ResultSet;
 
 public class StaffDAO {
 
-    public boolean authenticateStaff(String username, String password) {
-        boolean isValid = false;
-        String sql = "SELECT * FROM staff WHERE username = ? AND password = ?";
+    public String authenticateStaff(String username, String password) {
+        String role = null;
+        String sql = "SELECT role FROM staff WHERE username = ? AND password = ?";
         
         try (Connection con = DBConnection.getConnection();
              PreparedStatement pst = con.prepareStatement(sql)) {
@@ -19,12 +19,12 @@ public class StaffDAO {
             
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                isValid = true; 
+                role = rs.getString("role"); 
             }
         } catch (Exception e) {
             System.out.println("Login Error: " + e.getMessage());
         }
-        return isValid;
+        return role;
     }
 
     public boolean registerStaff(String username, String password, String role) {
