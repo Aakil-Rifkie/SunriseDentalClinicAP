@@ -34,12 +34,39 @@ public class AppointmentHandler implements HttpHandler {
                 if (path.equals("/dentist")) {
                     List<String> dentists = apptDAO.getAvailableDentists();
                     response = String.join("###", dentists);
+                    
                 } else if (path.equals("/treatment")) {
                     List<String> treatments = apptDAO.getAvailableTreatment();
                     response = String.join("###", treatments);
-                } else {
+                }
+                
+                else if (path.equals("/searchAppointment")){
+                    String query = exchange.getRequestURI().getQuery();
+                    
+                    if (query != null && query.startsWith("id=")){
+                        try{
+                            int apptId = Integer.parseInt(query.split("=")[1]);
+                            String apptData = apptDAO.searchAppointment(apptId);
+                            
+                            if (apptData != null){
+                                response = apptData;
+                            } else{
+                                statusCode = 404;
+                                response = "Appointment not found";
+                            }
+                        } catch (NumberFormatException e){
+                            statusCode = 400;
+                            response = "Invalid ID format";
+                        }       
+                    } else {
+                        statusCode = 400;
+                        response = "Missing appointment ID";
+                    }
+                }
+                else {
                     statusCode = 404;
                 }
+               
             } else if ("POST".equals(method)) {
                 InputStream is = exchange.getRequestBody();
                 String requestBody = new String(is.readAllBytes());

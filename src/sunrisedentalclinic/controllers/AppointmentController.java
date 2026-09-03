@@ -71,4 +71,20 @@ public class AppointmentController {
             return false;
         }
     }
+    
+    public String getAppointmentDetails(String apptIdStr){
+        try {
+            int id = Integer.parseInt(apptIdStr);
+            return apiClient.get("/searchAppointment?id=" + id);
+        } catch(NumberFormatException e) {
+            return "Error: Appointment ID must be a valid number";
+        } catch (RuntimeException e){
+            if (e.getMessage().contains("404")){
+                return "Error: No appointment found with that ID";
+            }
+            return "Error: Server Connection Failed";
+        } catch (Exception e){
+            return "Error: " + e.getMessage();
+        }
+    }
 }

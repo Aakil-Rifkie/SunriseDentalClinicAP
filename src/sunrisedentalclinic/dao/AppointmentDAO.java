@@ -128,6 +128,36 @@ public class AppointmentDAO {
             return false;
         }
     }
+    
+    public String searchAppointment(int apptId){
+        String sql = "SELECT a.appt_Id, p.name, p.address, p.contact, a.dentist_name, a.treatment_type, a.appt_date, a.appt_time " +
+                "FROM appointments a " +
+                "INNER JOIN patients p ON a.patient_id = p.patient_id " +
+                "WHERE a.appt_id = ?";
+        
+        try (Connection con = DBConnection.getConnection();
+        PreparedStatement pst = con.prepareStatement(sql)) {
+            
+            pst.setInt(1, apptId);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()){
+                    return String.join("###",
+                            String.valueOf(rs.getInt("appt_Id")),
+                            rs.getString("name"),
+                            rs.getString("address"),
+                            rs.getString("contact"),
+                            rs.getString("dentist_name"),
+                            rs.getString("treatment_type"),
+                            rs.getString("appt_date"),
+                            rs.getString("appt_time")
+                        );
+                }
+            }
+        } catch (Exception e){
+            System.out.println("Error searching appointments: " + e.getMessage());
+        }
+        return null;
+    }
 }
 
 

@@ -28,6 +28,7 @@ public class SunriseDentalClinic {
            server.createContext("/treatment", apptHandler);
            server.createContext("/checkAvailability", apptHandler);
            server.createContext("/registerAppointment", apptHandler);    
+           server.createContext("/searchAppointment", apptHandler);
            
            server.setExecutor(null);
            server.start();
