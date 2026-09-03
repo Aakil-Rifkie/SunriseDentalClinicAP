@@ -45,6 +45,24 @@ public class BillingDAO {
     }
     
     public boolean saveReceipt(Receipt receipt){
+        
+        String checkSql = "SELECT receipt_id FROM receipts WHERE appt_id = ?";
+        try (Connection con = DBConnection.getConnection();
+            PreparedStatement pstCheck = con.prepareStatement(checkSql)){
+            
+            pstCheck.setInt(1, receipt.getAppointmentID());
+            try (ResultSet rs = pstCheck.executeQuery()){
+                if(rs.next()){
+                    System.out.println("Saving same bill prevented, Receipt already exists");
+                    return false;
+                }
+            }
+        } catch (Exception e){
+            System.out.println("Error checking existing receipt " + e.getMessage());
+            return false;
+        }
+                
+                
         String sql = "INSERT INTO receipts (appt_id, total_amount) VALUES (?, ?)";
         boolean isSuccess = false;
         
