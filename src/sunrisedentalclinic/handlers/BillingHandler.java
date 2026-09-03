@@ -57,7 +57,7 @@ public class BillingHandler implements HttpHandler {
                 String[] data = requestBody.split("###");
                 
                 if (data.length == 2){
-                    Receipt receiptTosave = new Receipt(
+                    Receipt receiptToSave = new Receipt(
                     Integer.parseInt(data[0]), "", "", "", 0.0, 0.0
                     );
                     
