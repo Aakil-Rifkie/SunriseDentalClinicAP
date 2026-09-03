@@ -26,7 +26,7 @@ public class BillingDAO {
         try (Connection con = DBConnection.getConnection();
                 PreparedStatement pst = con.prepareStatement(sql)){
             pst.setInt(1, apptId);
-            try(Resultset rs = pst.executeQuery()){
+            try(ResultSet rs = pst.executeQuery()){
                 if(rs.next()){
                     return new Receipt(
                     rs.getInt("appt_id"),

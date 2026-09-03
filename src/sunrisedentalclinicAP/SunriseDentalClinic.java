@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import sunrisedentalclinic.handlers.StaffHandler;
 import sunrisedentalclinic.handlers.AppointmentHandler;
+import sunrisedentalclinic.handlers.BillingHandler;
 /**
  *
  * @author user
@@ -29,6 +30,10 @@ public class SunriseDentalClinic {
            server.createContext("/checkAvailability", apptHandler);
            server.createContext("/registerAppointment", apptHandler);    
            server.createContext("/searchAppointment", apptHandler);
+           
+           BillingHandler billHandler = new BillingHandler();
+           server.createContext("/calculateBill", billHandler);
+           server.createContext("/generateReceipt", billHandler);
            
            server.setExecutor(null);
            server.start();
