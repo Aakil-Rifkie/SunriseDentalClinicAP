@@ -178,6 +178,12 @@ public class RegisterAppointView extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Please fill all the fields");
             return;
         }
+        
+        if (!contact.matches("^0\\d{9}$")){
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Please enter a valid 10 digit contact number (eg: 0771234567",
+                    "Validation Error", javax.swing.JOptionPane.WARNING_MESSAGE);
+        }
 
         java.time.LocalDateTime appointmentDateTime;
         try {
