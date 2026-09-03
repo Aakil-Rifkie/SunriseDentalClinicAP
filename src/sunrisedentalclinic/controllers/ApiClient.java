@@ -42,21 +42,17 @@ public class ApiClient {
     }
 
     public String get(String endpoint) throws Exception {
-        URL url = new URL(baseUrl + endpoint);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-
-        if (conn.getResponseCode() != 200) {
-            throw new RuntimeException("HTTP GET Failed with code: " + conn.getResponseCode());
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(baseUrl + endpoint))
+                .timeout(Duration.ofSeconds(10))
+                .GET()
+                .build();
+                
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        if (response.statusCode() != 200){
+            throw new RuntimeException("HTTP GET Failed with code:  " + response.statusCode());
         }
-        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        StringBuilder response = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) {
-            response.append(line);
-        }
-        br.close();
-
-        return response.toString();
+        return response.body();
     }
 }

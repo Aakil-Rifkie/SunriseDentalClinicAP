@@ -6,9 +6,11 @@ package sunrisedentalclinic.dao;
 
 import sunrisedentalclinic.database.DBConnection;
 import sunrisedentalclinic.models.Appointment;
+import sunrisedentalclinic.models.Patient;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +22,12 @@ public class AppointmentDAO {
 
     public List<String> getAvailableDentists() {
         List<String> dentists = new ArrayList<>();
-        String sql = "SELECT name FROM dentists";
+        String sql = "SELECT username FROM staff WHERE role = 'Dentist'";
 
         try (Connection con = DBConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery()) {
 
             while (rs.next()) {
-                dentists.add(rs.getString("name"));
+                dentists.add(rs.getString("username"));
             }
         } catch (Exception e) {
             System.out.println("Error fetching dentists: " + e.getMessage());
@@ -67,34 +69,51 @@ public class AppointmentDAO {
         return true;
     }
 
-    public boolean registerAppointment(Appointment appt) {
-        
+    public boolean registerPatientAndAppointment(Patient patient, Appointment appt) {
+
         if (!checkAvailability(appt.getDentistName(), appt.getAppointmentDate(), appt.getAppointmentTime())) {
             System.out.println("Double booking prevented! This time slot is already taken");
             return false;
         }
+
+        String insertPatient = "INSERT INTO patients (name, address, contact) VALUES (?, ?, ?)";
+        String insertAppt = "INSERT INTO appointments (patient_id, dentist_name, treatment_type, appt_date, appt_time) VALUES (?, ?, ?, ?, ?)";
         
-        String sql = "INSERT INTO appointments (patient_name, address, contact, dentist_name, treatment_type, appt_date, appt_time) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        boolean isSuccess = false;
-
-        try (Connection con = DBConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
-
-            pst.setString(1, appt.getPatientName());
-            pst.setString(2, appt.getAddress());
-            pst.setString(3, appt.getContactNumber());
-            pst.setString(4, appt.getDentistName());
-            pst.setString(5, appt.getTreatmentType());
-            pst.setString(6, appt.getAppointmentDate());
-            pst.setString(7, appt.getAppointmentTime());
-
-            int rowsAffected = pst.executeUpdate();
-
-            if (rowsAffected > 0) {
-                isSuccess = true;
-            }
-        } catch (Exception e) {
-            System.out.println("Error registering appointment: " + e.getMessage());
+        try (Connection con = DBConnection.getConnection()){
+           con.setAutoCommit(false);
+           
+           try (PreparedStatement pstPatient = con.prepareStatement(insertPatient, Statement.RETURN_GENERATED_KEYS)){
+                pstPatient.setString(1, patient.getName());
+                pstPatient.setString(2, patient.getAddress());
+                pstPatient.setString(3, patient.getContact());
+                pstPatient.executeUpdate();
+                
+                try(ResultSet rs = pstPatient.getGeneratedKeys()){
+                    if(rs.next()){
+                        int patientId = rs.getInt(1);
+                        
+                        try (PreparedStatement pstAppt = con.prepareStatement(insertAppt)){
+                            pstAppt.setInt(1, patientId);
+                            pstAppt.setString(2, appt.getDentistName());
+                            pstAppt.setString(3, appt.getTreatmentType());
+                            pstAppt.setString(4, appt.getAppointmentDate());
+                            pstAppt.setString(5, appt.getAppointmentTime());
+                            pstAppt.executeUpdate();
+                        }
+                    }
+                }  
+                con.commit();
+                return true;
+           } catch (Exception ex){
+               con.rollback();
+               System.out.println("Transaction failed, rolled back: " + ex.getMessage());
+               return false;
+           }
+        } catch (Exception e){
+            System.out.println("Database error: " + e.getMessage());
+            return false;
         }
-        return isSuccess;
     }
 }
+
+
