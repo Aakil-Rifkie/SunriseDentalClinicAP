@@ -48,7 +48,32 @@ public class AppointmentDAO {
         return treatments;
     }
 
+    public boolean checkAvailability(String dentist, String date, String time) {
+        String sql = "SELECT COUNT(*) FROM appointments WHERE dentist_name =? AND appt_date = ? AND appt_time = ?";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
+            pst.setString(1, dentist);
+            pst.setString(2, date);
+            pst.setString(3, time);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next() && rs.getInt(1) > 0) {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error checking availability " + e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
     public boolean registerAppointment(Appointment appt) {
+        
+        if (!checkAvailability(appt.getDentistName(), appt.getAppointmentDate(), appt.getAppointmentTime())) {
+            System.out.println("Double booking prevented! This time slot is already taken");
+            return false;
+        }
+        
         String sql = "INSERT INTO appointments (patient_name, address, contact, dentist_name, treatment_type, appt_date, appt_time) VALUES (?, ?, ?, ?, ?, ?, ?)";
         boolean isSuccess = false;
 
@@ -73,4 +98,3 @@ public class AppointmentDAO {
         return isSuccess;
     }
 }
-
