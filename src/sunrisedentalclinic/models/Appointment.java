@@ -36,8 +36,4 @@ public class Appointment {
     public String getAppointmentTime() {
         return appointmentTime;
     }
-
-   
-    
-    
 }

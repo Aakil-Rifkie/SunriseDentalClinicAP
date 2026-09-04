@@ -11,10 +11,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import sunrisedentalclinic.dao.StaffDAO;
 
-/**
- *
- * @author user
- */
 public class StaffHandler implements HttpHandler {
 
     private StaffDAO staffDAO = new StaffDAO();

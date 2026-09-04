@@ -9,10 +9,6 @@ import java.util.List;
 import java.util.ArrayList;
 import sunrisedentalclinic.models.Patient;
 
-/**
- *
- * @author user
- */
 public class AppointmentController {
     private ApiClient apiClient = new ApiClient();
     

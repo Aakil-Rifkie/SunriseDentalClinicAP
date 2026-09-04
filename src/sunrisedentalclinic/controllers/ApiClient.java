@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package sunrisedentalclinic.controllers;
-
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -14,10 +13,6 @@ import java.net.http.HttpResponse;
 import java.net.URL;
 import java.time.Duration;
 
-/**
- *
- * @author user
- */
 public class ApiClient {
 
     private final String baseUrl = "http://localhost:5000";

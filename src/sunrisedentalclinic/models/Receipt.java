@@ -19,7 +19,8 @@ public class Receipt {
     private double totalAmount;
     private String issueDate;
 
-    public Receipt(int appointmentID, String patientName, String dentistName, String treatmentName, double treatmentCost, double consultationFee) {
+    public Receipt(int appointmentID, String patientName, String dentistName, String treatmentName, 
+            double treatmentCost, double consultationFee) {
         this.appointmentID = appointmentID;
         this.patientName = patientName;
         this.dentistName = dentistName;

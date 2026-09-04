@@ -1,5 +1,4 @@
 package sunrisedentalclinic.dao;
-
 import sunrisedentalclinic.database.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

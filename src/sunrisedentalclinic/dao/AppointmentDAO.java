@@ -14,17 +14,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author user
- */
+
 public class AppointmentDAO {
 
     public List<String> getAvailableDentists() {
         List<String> dentists = new ArrayList<>();
         String sql = "SELECT username FROM staff WHERE role = 'Dentist'";
 
-        try (Connection con = DBConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery()) {
+        try (Connection con = DBConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql); 
+                ResultSet rs = pst.executeQuery()) {
 
             while (rs.next()) {
                 dentists.add(rs.getString("username"));
@@ -40,7 +38,8 @@ public class AppointmentDAO {
         List<String> treatments = new ArrayList<>();
         String sql = "SELECT name FROM treatments";
 
-        try (Connection con = DBConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery()) {
+        try (Connection con = DBConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
                 treatments.add(rs.getString("name"));
             }
@@ -78,7 +77,8 @@ public class AppointmentDAO {
         
         String checkPatient = "SELECT patient_id FROM patients WHERE contact = ?";
         String insertPatient = "INSERT INTO patients (name, address, contact) VALUES (?, ?, ?)";
-        String insertAppt = "INSERT INTO appointments (patient_id, dentist_name, treatment_type, appt_date, appt_time) VALUES (?, ?, ?, ?, ?)";
+        String insertAppt = "INSERT INTO appointments (patient_id, dentist_name, treatment_type, appt_date, appt_time) "
+                + "VALUES (?, ?, ?, ?, ?)";
         
         try (Connection con = DBConnection.getConnection()){
            con.setAutoCommit(false);
@@ -155,8 +155,7 @@ public class AppointmentDAO {
             }
         } catch (Exception e){
             System.out.println("Error searching appointments: " + e.getMessage());
-        }
-        return null;
+        } return null;
     }
 }
 

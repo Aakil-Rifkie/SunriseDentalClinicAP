@@ -3,11 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package sunrisedentalclinic.utils;
-
-/**
- *
- * @author user
- */
 public class SessionManager {
 
     private static SessionManager instance;

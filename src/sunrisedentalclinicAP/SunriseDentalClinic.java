@@ -39,6 +39,9 @@ public class SunriseDentalClinic {
            server.start();
            System.out.println("Server is running on 5000");
            
+           sunrisedentalclinic.views.Login loginScreen = new sunrisedentalclinic.views.Login();
+           loginScreen.setVisible(true);
+           
        } 
        catch(IOException e) {
            System.out.println("Error starting the error" + e.getMessage());

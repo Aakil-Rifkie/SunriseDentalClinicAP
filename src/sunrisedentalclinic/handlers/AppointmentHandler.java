@@ -14,10 +14,6 @@ import sunrisedentalclinic.dao.AppointmentDAO;
 import sunrisedentalclinic.models.Appointment;
 import sunrisedentalclinic.models.Patient;
 
-/**
- *
- * @author user
- */
 public class AppointmentHandler implements HttpHandler {
 
     private AppointmentDAO apptDAO = new AppointmentDAO();

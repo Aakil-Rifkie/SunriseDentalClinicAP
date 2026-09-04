@@ -4,10 +4,6 @@
  */
 package sunrisedentalclinic.controllers;
 import sunrisedentalclinic.utils.SessionManager;
-/**
- *
- * @author user
- */
 public class StaffController {
     private ApiClient apiClient = new ApiClient();
     
